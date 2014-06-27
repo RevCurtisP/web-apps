@@ -1,0 +1,90 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head> 
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width", initial-scale="1"/>
+    <meta name="author" content="Curtis F Kaylor" />
+    <meta name="dcterms.rights" content="All Rights Reserved" />
+    <meta name="dcterms.dateCopyrighted" content="25 June 2014" />
+    <meta name="dcterms.rightsHolder" content="Ohio Divide Consulting" />
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <title>Cash Drop Slip</title>
+    <style>
+      body {text-align: center;}
+      #dropslip {display: inline-block;}
+      #dropslip div {display: inline-block;}
+      #dropslip span {display: block; text-align: right;}
+      #dropslip input {text-align: right; width: 4em; -wap-input-format: "*N";}
+      #dropslip p {font-size: 75%; text-align: center; width: 5em;}
+    </style>
+  </head> 
+  <body> 
+    <h1>Cash Drop Slip</h1>
+    <form id="dropslip" onsubmit="return calcTotal()">
+      <div>
+      <span>
+        Coin
+        <input type="tel" id="coin" size=6 onblur="format('coin')" />
+      </span>
+      <span>
+        Ones
+        <input type="tel" id="ones" size=6 onblur="format('ones')" />
+      </span>
+      <span>
+        Other
+        <input type="tel" id="other" size=6 onblur="format('other')"/>
+      </span>
+      <span>
+        Checks
+        <input type="tel" id="checks" size=6 onblur="format('checks')" />
+      </span>
+      <span>
+        <button type="tel" id="calc">Total</button>
+        <input type="text" id="total" size=6 readonly="true"/>
+      </span>
+      </div>
+      <div>
+        <p>* and # may be used as decimal point</p>
+        <button type="reset" id="clear">Clear</button>
+      </div>
+    </form>
+    <script>
+
+      function calcTotal()
+      {
+        var coin = getFloat("coin");
+        var ones = getFloat("ones");
+        var other = getFloat("other");
+        var check = getFloat("checks");
+        var total = coin + ones + other + check;
+        setFloat("total", total);
+        return false;
+      }
+
+      //validate and format specified element
+      function format(id)
+      {
+        var value = getFloat(id);
+        setFloat(id, value);
+      }
+      
+      //get float value of specified element
+      function getFloat(id)
+      {
+        var input = document.getElementById(id);
+        var value = input.value.replace(/[*#+]/g, ".");
+        var number = parseFloat(value);
+        return isNaN(number) ? 0 : number;
+      }
+      
+      //set specified element to specified value
+      //formatted as dollars and cents
+      function setFloat(id, value)
+      {
+        var input = document.getElementById(id);
+        input.value = value.toFixed(2);
+      }
+
+    </script>
+  <body> 
+</html>  
