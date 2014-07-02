@@ -3,7 +3,7 @@
   <head> 
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width", initial-scale="1"/>
-    <title>City Center Hotel Ticket Time Calculator</title>
+    <title>Ticket Time Calculator</title>
     <style>
       body {text-align: center;}
       form {display: inline-block; text-align: right;}
@@ -12,21 +12,25 @@
     </style>
   </head> 
   <body> 
-    <h1>Hotel Ticket Time Calculator</h1>
+    <h1>Ticket Time Calculator</h1>
     <form id="ticket" onsubmit="return calcTotal()">
-      Validated
-      <input type="text" id="end" size=16 maxlength=10 
-        onblur="formatInput('end')" onfocus="restoreInput('end')" />
-      <br />
-      Printed
-      <input type="text" id="start" size=16 maxlength=10 
-        onblur="formatInput('start')" onfocus="restoreInput('start')"/>
-      <br />
-      <button type="submit" id="calc">Total</button>
-      <input type="text" id="total" size=9 readonly="true" />
-      <button type="reset" id="clear" ">Clear</button>
-      <br />
-      <input type="text" id="debug" size=32 readonly="true" />      
+      <div id="end">
+        Validated
+        <input type="text" id="e_end" size=8 maxlength=8 
+          onblur="formatInput('end')" />
+        <input type="text" id="f_end" size=10 disabled="true" />
+      </div>
+      <div id="start">
+        Printed
+        <input type="text" id="e_start" size=8 maxlength=8
+          onblur="formatInput('start')" />
+        <input type="text" id="f_start" size=10 disabled="true" />
+      </div>
+      <div id="total">
+        <button type="submit" id="calc">Total</button>
+        <input type="text" id="f_total" size=3 readonly="true" />
+        <button type="reset" id="clear" ">Clear</button>
+      </div>
     </form>
     <script language="JavaScript" type="text/javascript">
 
@@ -35,14 +39,18 @@
       //calculate and display hours
       function calcTotal()
       {
-        var startInput = document.getElementById("start");
-        var endInput = document.getElementById("end");
-        var totalInput = document.getElementById("total");
+        var startInput = document.getElementById("f_start");
+        var endInput = document.getElementById("f_end");
+        var totalInput = document.getElementById("f_total");
 
         var startDate = parseDateTime(startInput.value);
         var endDate = parseDateTime(endInput.value);
+        if (startDate > endDate)
+          startDate.setFullYear(startDate.getFullYear()-1);
         var time = Math.abs(endDate - startDate);
-        var hours = Math.ceil(time/3600000);
+        var hours = "GP";
+        var minutes = Math.floor(time/60000);
+        if (minutes > 65) hours = Math.ceil(minutes/60);
         
         totalInput.value = hours;
         
@@ -52,12 +60,12 @@
       //format input field with specified id
       function formatInput(id)
       {
-        var input = document.getElementById(id);
+        var input = document.getElementById("e_"+id);
         var entry = input.value;
         var formatted = "";
         if (entry.length) formatted = formatDateTime(entry);
-        input.value = formatted; //display formatted text
-        input.entry = entry; //save entered text
+        var display = document.getElementById("f_"+id);
+        display.value = formatted; //display formatted text
         //date = parseDateTime(formatted);
         //document.getElementById("debug").value = date.toString();
       }
@@ -90,16 +98,18 @@
         var day = now.getDate();
         var hours = now.getHours();
         var minutes = now.getMinutes();
-        var century = Math.floor(year/100) * 100;
+        var time = hours * 60 + minutes + 5;
         switch (text.length)
         {
           case 3:
             hours = parseInt(text.substring(0,1));
             minutes = parseInt(text.substring(1));
+            if (hours*60+minutes > time) day -= 1;
             break;
           case 4:
             hours = parseInt(text.substring(0,2));
             minutes = parseInt(text.substring(2));
+            if (hours*60+minutes > time) day -= 1;
             break;
           case 5:
             day = parseInt(text.substring(0,1));
@@ -123,18 +133,11 @@
             hours = parseInt(text.substring(4,6));
             minutes = parseInt(text.substring(6));
             break;
-          case 10:
-            year = parseInt(text.substring(0,2)) + century;
-            month = parseInt(text.substring(2,4));
-            day = parseInt(text.substring(4,6));
-            hours = parseInt(text.substring(6,8));
-            minutes = parseInt(text.substring(8));
-            break;
           default:
             minutes = NaN;
             break;
         } //switch
-        var date = padInt(year) + "-" + padInt(month) + "-" + padInt(day);
+        var date = padInt(month) + "-" + padInt(day);
         var time = padInt(hours) + ":" + padInt(minutes);
         return date + " " + time;
       }
@@ -147,14 +150,15 @@
 
 
   
-      //convert "YYYY-MM-DD HH:MM" to Unix epoch
+      //convert "MM-DD HH:MM" to Unix epoch
       function parseDateTime(text)
       {
-        var year = parseInt(text.substring(0,4));
-        var month = parseInt(text.substring(5,7));
-        var day = parseInt(text.substring(8,10));
-        var hours = parseInt(text.substring(11,13));
-        var minutes = parseInt(text.substring(14));
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = parseInt(text.substring(0,2));
+        var day = parseInt(text.substring(3,5));
+        var hours = parseInt(text.substring(6,8));
+        var minutes = parseInt(text.substring(9));
         return new Date(year, month-1, day, hours, minutes, 0, 0);
       }
       
