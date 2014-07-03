@@ -1,3 +1,7 @@
-body {text-align: center;}
-a {display: block; font-size: 1.5em; text-decoration: none;}
+body {background-color: #D3D3D3; color: #000000; margin: 0px; text-align: center;}
+h1 {background-color: #808080; margin: 0px; padding: 8px 0px;}
+form {padding: 8px 0px;}
+input {background-color: #F6F0F0;}
+input:disabled {background-color: #E0E0E0; color: #000000;}
+
 

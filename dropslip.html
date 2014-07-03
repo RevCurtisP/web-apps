@@ -2,20 +2,20 @@
 <html lang="en"> 
   <head> 
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width", initial-scale="1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no"/>
     <meta name="author" content="Curtis F Kaylor" />
     <meta name="dcterms.rights" content="All Rights Reserved" />
-    <meta name="dcterms.dateCopyrighted" content="25 June 2014" />
+    <meta name="dcterms.dateCopyrighted" content="2 July 2014" />
     <meta name="dcterms.rightsHolder" content="Ohio Divide Consulting" />
-    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
     <title>Cash Drop Slip</title>
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <style>
-      body {text-align: center;}
-      #dropslip {display: inline-block;}
+      #dropslip {display: inline-block; margin: 8px 0px;}
       #dropslip div {display: inline-block;}
       #dropslip span {display: block; text-align: right;}
       #dropslip input {text-align: right; width: 4em; -wap-input-format: "*N";}
-      #dropslip p {font-size: 75%; text-align: center; width: 5em;}
+      #dropslip p {font-size: .8em; margin: 0px; text-align: center; width: 5em;}
     </style>
   </head> 
   <body> 
@@ -24,27 +24,27 @@
       <div>
       <span>
         Coin
-        <input type="tel" id="coin" size=6 onblur="format('coin')" />
+        <input type="tel" id="coin" size=6 onblur="format('coin')" onfocus="setHelp('coin')";/>
       </span>
       <span>
         Ones
-        <input type="tel" id="ones" size=6 onblur="format('ones')" />
+        <input type="tel" id="ones" size=6 onblur="format('ones')" onfocus="setHelp('ones')"/>
       </span>
       <span>
         Other
-        <input type="tel" id="other" size=6 onblur="format('other')"/>
+        <input type="tel" id="other" size=6 onblur="format('other')" onfocus="setHelp('other')"/>
       </span>
       <span>
         Checks
-        <input type="tel" id="checks" size=6 onblur="format('checks')" />
+        <input type="tel" id="checks" size=6 onblur="format('checks')"  onfocus="setHelp('checks')" />
       </span>
       <span>
-        <button type="tel" id="calc">Total</button>
-        <input type="text" id="total" size=6 readonly="true"/>
+        <button type="submit" id="calc">Total</button>
+        <input type="text" id="total" size=6 disabled="true"/>
       </span>
       </div>
       <div>
-        <p>* and # may be used as decimal point</p>
+        <p id="help"></p>
         <button type="reset" id="clear">Clear</button>
       </div>
     </form>
@@ -66,6 +66,7 @@
       {
         var value = getFloat(id);
         setFloat(id, value);
+        document.getElementById("help").innerHTML = "";
       }
       
       //get float value of specified element
@@ -74,6 +75,8 @@
         var input = document.getElementById(id);
         var value = input.value.replace(/[*#+]/g, ".");
         var number = parseFloat(value);
+        if (isCents(id) &&  value.indexOf('.')<0)
+          number = number / 100;
         return isNaN(number) ? 0 : number;
       }
       
@@ -83,6 +86,22 @@
       {
         var input = document.getElementById(id);
         input.value = value.toFixed(2);
+      }
+
+      //set help text based on input id
+      function setHelp(id)
+      {
+        if (isCents(id))
+          text = "Enter dollars and cents without period";
+        else
+          text = "Enter whole dollars without cents";
+        document.getElementById("help").innerHTML = text;
+      }
+
+      //check whether specified amount is entered as cents
+      function isCents(id)
+      {
+        return (id == "coin" || id == "checks");
       }
 
     </script>

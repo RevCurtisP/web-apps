@@ -2,10 +2,15 @@
 <html lang="en"> 
   <head> 
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width", initial-scale="1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no"/>
+    <meta name="author" content="Curtis F Kaylor" />
+    <meta name="dcterms.rights" content="All Rights Reserved" />
+    <meta name="dcterms.dateCopyrighted" content="2 July 2014" />
+    <meta name="dcterms.rightsHolder" content="Ohio Divide Consulting" />
     <title>Ticket Time Calculator</title>
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <style>
-      body {text-align: center;}
       form {display: inline-block; text-align: right;}
       input {text-align: right;}
       debug {display: none;}
@@ -28,7 +33,7 @@
       </div>
       <div id="total">
         <button type="submit" id="calc">Total</button>
-        <input type="text" id="f_total" size=3 readonly="true" />
+        <input type="text" id="f_total" size=3 disabled="true" />
         <button type="reset" id="clear" ">Clear</button>
       </div>
     </form>
@@ -42,16 +47,21 @@
         var startInput = document.getElementById("f_start");
         var endInput = document.getElementById("f_end");
         var totalInput = document.getElementById("f_total");
+        var hours = "";
 
-        var startDate = parseDateTime(startInput.value);
-        var endDate = parseDateTime(endInput.value);
-        if (startDate > endDate)
-          startDate.setFullYear(startDate.getFullYear()-1);
-        var time = Math.abs(endDate - startDate);
-        var hours = "GP";
-        var minutes = Math.floor(time/60000);
-        if (minutes > 65) hours = Math.ceil(minutes/60);
-        
+        startValue = startInput.value;
+        endValue = endInput.value;
+        if (startValue.length && endValue.length)
+        {
+          var startDate = parseDateTime(startValue);
+          var endDate = parseDateTime(endValue);
+          if (startDate > endDate)
+            startDate.setFullYear(startDate.getFullYear()-1);
+          var time = Math.abs(endDate - startDate);
+          var minutes = Math.floor(time/60000);
+          if (minutes > 65) hours = Math.ceil(minutes/60);
+          else hours = "GP";
+        } 
         totalInput.value = hours;
         
         return false;
