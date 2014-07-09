@@ -21,13 +21,13 @@
     <form id="ticket" onsubmit="return calcTotal()">
       <div id="end">
         Validated
-        <input type="text" id="e_end" size=8 maxlength=8 
+        <input type="tel" id="e_end" size=8 maxlength=8 
           onblur="formatInput('end')" />
         <input type="text" id="f_end" size=10 disabled="true" />
       </div>
       <div id="start">
         Printed
-        <input type="text" id="e_start" size=8 maxlength=8
+        <input type="tel" id="e_start" size=8 maxlength=8
           onblur="formatInput('start')" />
         <input type="text" id="f_start" size=10 disabled="true" />
       </div>
@@ -112,36 +112,36 @@
         switch (text.length)
         {
           case 3:
-            hours = parseInt(text.substring(0,1));
-            minutes = parseInt(text.substring(1));
+            hours = subInt(text,0,1);
+            minutes = subInt(text,1,3);
             if (hours*60+minutes > time) day -= 1;
             break;
           case 4:
-            hours = parseInt(text.substring(0,2));
-            minutes = parseInt(text.substring(2));
+            hours = subInt(text,0,2);
+            minutes = subInt(text,2,4);
             if (hours*60+minutes > time) day -= 1;
             break;
           case 5:
-            day = parseInt(text.substring(0,1));
-            hours = parseInt(text.substring(1,3));
-            minutes = parseInt(text.substring(3));
+            day = subInt(text,0,1);
+            hours = subInt(text,1,3);
+            minutes = subInt(text,3,5);
             break;
           case 6:
-            day = parseInt(text.substring(0,2));
-            hours = parseInt(text.substring(2,4));
-            minutes = parseInt(text.substring(4));
+            day = subInt(text,0,2);
+            hours = subInt(text,2,4);
+            minutes = subInt(text,4,6);
             break;
           case 7:
-            month = parseInt(text.substring(0,1));
-            day = parseInt(text.substring(1,3));
-            hours = parseInt(text.substring(3,5));
-            minutes = parseInt(text.substring(5));
+            month = subInt(text,0,1);
+            day = subInt(text,1,3);
+            hours = subInt(text,3,5);
+            minutes = subInt(text,5,7);
             break;
           case 8:
-            month = parseInt(text.substring(0,2));
-            day = parseInt(text.substring(2,4));
-            hours = parseInt(text.substring(4,6));
-            minutes = parseInt(text.substring(6));
+            month = subInt(text,0,2);
+            day = subInt(text,2,4);
+            hours = subInt(text,4,6);
+            minutes = subInt(text,6,8);
             break;
           default:
             minutes = NaN;
@@ -152,23 +152,27 @@
         return date + " " + time;
       }
 
+      function subInt(text, start, end)
+      {
+        sub = text.substring(start, end);
+        return parseInt(sub, 10);
+      }
+
       function padInt(i)
       {
         s = i.toString();
         return s.length < 2 ? "0" + s : s;
       }
 
-
-  
       //convert "MM-DD HH:MM" to Unix epoch
       function parseDateTime(text)
       {
         var now = new Date();
         var year = now.getFullYear();
-        var month = parseInt(text.substring(0,2));
-        var day = parseInt(text.substring(3,5));
-        var hours = parseInt(text.substring(6,8));
-        var minutes = parseInt(text.substring(9));
+        var month = subInt(text,0,2);
+        var day = subInt(text,3,5);
+        var hours = subInt(text,6,8);
+        var minutes = subInt(text,9,11);
         return new Date(year, month-1, day, hours, minutes, 0, 0);
       }
       
