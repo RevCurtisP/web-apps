@@ -1,0 +1,76 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  <head> 
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width", initial-scale="1"/>
+    <title>Shift Report</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <style>
+      #report {display: inline-block; text-align: right;}
+      .line {display: block;}
+      .count {text-align: right; width: 4em;}
+      .label {text-align: center; width: 10em;}
+      .rate {text-align: right; width: 3em;}
+      .extended {text-align: right; width: 4em;}
+    </style>
+  </head> 
+  <body> 
+    <h1>Shift Report</h1>
+    <form id="report" onsubmit="return calcTotals()">
+      <span class="line">
+        <input type="number" class="count"/ min="0" max="999">
+        <input type="text" class="label" disabled="true" value="Daily 01:00"/>
+        <input type="text" class="rate" disabled="true" value="0.00"/>
+        <input type="tel" class="extended" disabled="true" />
+      </span>      
+      <span class="line">
+        <input type="number" class="count"/ min="0" max="999">
+        <input type="text" class="label" disabled="true" value="Daily 01:30"/>
+        <input type="text" class="rate" disabled="true" value="1.00"/>
+        <input type="tel" class="extended" disabled="true" />
+      </span>      
+      <span class="line">
+        <input type="number" class="count"/ min="0" max="999">
+        <input type="text" class="label" disabled="true" value="Daily 02:00"/>
+        <input type="text" class="rate" disabled="true" value="3.00"/>
+        <input type="tel" class="extended" disabled="true" />
+      </span>      
+      <span class="line">
+        <input type="number" class="count"/ min="0" max="999">
+        <input type="text" class="label" disabled="true" value="Daily 02:30"/>
+        <input type="text" class="rate" disabled="true" value="4.25"/>
+        <input type="tel" class="extended" disabled="true" />
+      </span>      
+      <span class="line">
+        <input type="number" class="count"/ min="0" max="999">
+        <input type="text" class="label" disabled="true" value="Special Event"/>
+        <input type="text" class="rate" disabled="true" value="2.00"/>
+        <input type="tel" class="extended" disabled="true" />
+      </span>      
+      <span class="line">
+        <input type="number" class="count"/ min="0" max="999">
+        <input type="text" class="label" disabled="true" value="Val Overtime"/>
+        <input type="text" class="rate" disabled="true" value="0.00"/>
+        <input type="tel" class="extended" />
+      </span>      
+      <span class="line">
+        <input type="number" class="count"/ min="0" max="999">
+        <input type="text" class="label" disabled="true" value="Prior Day"/>
+        <input type="text" class="rate" disabled="true" value="0.00"/>
+        <input type="tel" class="extended" />
+      </span>      
+      <button type="submit" id="calc">Total</button>
+      <button type="reset" id="clear" ">Clear</button>
+    </form>
+    <script language="JavaScript" type="text/javascript">
+
+      //calculate and display hours
+      function calcTotals()
+      {
+        return false;
+      }
+
+    </script>
+  </body> 
+</html>
+
