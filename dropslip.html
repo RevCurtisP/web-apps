@@ -24,23 +24,23 @@
       <div>
       <span>
         Coin
-        <input type="tel" id="coin" size=6 onblur="format('coin')" onfocus="setHelp('coin')";/>
+        <input type="tel" id="coin" size=6 onblur="format('coin')" onfocus="setHelpById('coin')";/>
       </span>
       <span>
         Ones
-        <input type="tel" id="ones" size=6 onblur="format('ones')" onfocus="setHelp('ones')"/>
+        <input type="tel" id="ones" size=6 onblur="format('ones')" onfocus="setHelpById('ones')"/>
       </span>
       <span>
         Other
-        <input type="tel" id="other" size=6 onblur="format('other')" onfocus="setHelp('other')"/>
+        <input type="tel" id="other" size=6 onblur="format('other')" onfocus="setHelpById('other')"/>
       </span>
       <span>
         Checks
-        <input type="tel" id="checks" size=6 onblur="format('checks')"  onfocus="setHelp('checks')" />
+        <input type="tel" id="checks" size=6 onblur="format('checks')"  onfocus="setHelpById('checks')" />
       </span>
       <span>
         <button type="submit" id="calc">Total</button>
-        <input type="text" id="total" size=6 disabled="true"/>
+        <input type="text" id="total" size=6 maxlength="0" onfocus="setHelpTotal();"/>
       </span>
       </div>
       <div>
@@ -58,6 +58,7 @@
         var check = getFloat("checks");
         var total = coin + ones + other + check;
         setFloat("total", total);
+        setHelp("");
         return false;
       }
 
@@ -66,7 +67,7 @@
       {
         var value = getFloat(id);
         setFloat(id, value);
-        document.getElementById("help").innerHTML = "";
+        setHelp("");
       }
       
       //get float value of specified element
@@ -89,12 +90,24 @@
       }
 
       //set help text based on input id
-      function setHelp(id)
+      function setHelpById(id)
       {
         if (isCents(id))
           text = "Enter dollars and cents without period";
         else
           text = "Enter whole dollars without cents";
+        setHelp(text);
+      }
+
+      //set help text for Total field
+      function setHelpTotal(){
+        text = "Press <kbd>Enter</kbd> or <kbd>Go</kbd> to calculate total";
+        setHelp(text);
+      }
+      
+      //set help text
+      function setHelp(text)
+      {
         document.getElementById("help").innerHTML = text;
       }
 

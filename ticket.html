@@ -18,7 +18,7 @@
   </head> 
   <body> 
     <h1>Ticket Time Calculator</h1>
-    <form id="ticket" onsubmit="return calcTotal()">
+    <form id="ticket" onsubmit="return calcTicket()">
       <div id="end">
         Validated
         <input type="tel" id="e_end" size=8 maxlength=8 
@@ -39,18 +39,19 @@
     </form>
     <script language="JavaScript" type="text/javascript">
 
-      document.getElementById("ticket").onkeypress = keyPress;
-
+      document.getElementById("ticket").onkeypress = keyTicket;
+      document.getElementById("calc").onfocus = calcTicket;
+      document.getElementById("clear").onclick = resetTicket;
+      
       //calculate and display hours
-      function calcTotal()
+      function calcTicket()
       {
         var startInput = document.getElementById("f_start");
         var endInput = document.getElementById("f_end");
         var totalInput = document.getElementById("f_total");
         var hours = "";
-
-        startValue = startInput.value;
-        endValue = endInput.value;
+        var startValue = startInput.value;
+        var endValue = endInput.value;
         if (startValue.length && endValue.length)
         {
           var startDate = parseDateTime(startValue);
@@ -67,6 +68,14 @@
         return false;
       }
 
+      //reset form and set focus to specified element
+      function resetTicket(event)
+      {
+        document.getElementById("ticket").reset();
+        document.getElementById("e_end").focus();
+        return false;
+      }
+
       //format input field with specified id
       function formatInput(id)
       {
@@ -80,13 +89,22 @@
         //document.getElementById("debug").value = date.toString();
       }
 
-      function keyPress(event)
+      function keyTicket(event)
       {
         var form = document.getElementById("ticket");
         var key = event.key;
-        if (key == "Esc")
+        if (key == "Esc" || key == "*")
         {
-          form.reset();
+          resetTicket();
+          return false;
+        }
+        if (key == "Enter")
+        {
+          var id = event.target.id;
+          if (id == "e_end")
+            document.getElementById("e_start").focus();
+          else if (id == "e_start")
+            document.getElementById("calc").focus();
           return false;
         }
         return true;
