@@ -1,15 +1,15 @@
 <!DOCTYPE html> 
 <html lang="en"> 
   <head> 
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no"/>
-    <meta name="author" content="Curtis F Kaylor" />
-    <meta name="dcterms.rights" content="All Rights Reserved" />
-    <meta name="dcterms.dateCopyrighted" content="2 July 2014" />
-    <meta name="dcterms.rightsHolder" content="Ohio Divide Consulting" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">
+    <meta name="author" content="Curtis F Kaylor">
+    <meta name="dcterms.rights" content="All Rights Reserved">
+    <meta name="dcterms.dateCopyrighted" content="2 July 2014">
+    <meta name="dcterms.rightsHolder" content="Ohio Divide Consulting">
     <title>Ticket Time Calculator</title>
     <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css">
     <style>
       form {display: inline-block; text-align: right;}
       input {text-align: right;}
@@ -18,22 +18,24 @@
   </head> 
   <body> 
     <h1>Ticket Time Calculator</h1>
-    <form id="ticket" onsubmit="return calcTicket()">
+    <form id="ticket" autocomplete="off" onsubmit="return calcTicket()">
       <div id="end">
         Validated
-        <input type="tel" id="e_end" size=8 maxlength=8 
-          onblur="formatInput('end')" />
-        <input type="text" id="f_end" size=10 disabled="true" />
+        <input type="tel" id="e_end" size=7 maxlength=8 
+          onfocus="this.select()"
+          onblur="formatInput('end')">
+        <input type="text" id="f_end" size=8 disabled="true">
       </div>
       <div id="start">
         Printed
-        <input type="tel" id="e_start" size=8 maxlength=8
-          onblur="formatInput('start')" />
-        <input type="text" id="f_start" size=10 disabled="true" />
+        <input type="tel" id="e_start" size=7 maxlength=8
+          onfocus="this.select()"
+          onblur="formatInput('start')">
+        <input type="text" id="f_start" size=8 disabled="true">
       </div>
       <div id="total">
         <button type="submit" id="calc">Total</button>
-        <input type="text" id="f_total" size=3 disabled="true" />
+        <input type="text" id="f_total" size=3 maxlength="0">
         <button type="reset" id="clear" ">Clear</button>
       </div>
     </form>
@@ -60,8 +62,8 @@
             startDate.setFullYear(startDate.getFullYear()-1);
           var time = Math.abs(endDate - startDate);
           var minutes = Math.floor(time/60000);
-          if (minutes > 65) hours = Math.ceil(minutes/60);
-          else hours = "GP";
+          if (minutes > 5) hours = Math.ceil(minutes/60);
+          else hours = "NP";
         } 
         totalInput.value = hours;
         
